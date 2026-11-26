@@ -66,7 +66,13 @@ def test_cli_scan_json_format(python_node_repo: Path) -> None:
     assert "package.json" in repo["manifests"]
     assert "Dockerfile" in repo["docker_files"]
     assert ".github/workflows/ci.yml" in repo["ci_workflows"]
-    assert payload["summary"]["analyzers_executed"] == ["node", "python"]
+    assert payload["summary"]["analyzers_executed"] == [
+        "deployment",
+        "docker",
+        "environment",
+        "node",
+        "python",
+    ]
     assert payload["summary"]["execution_status"] == "completed"
 
 
@@ -106,8 +112,8 @@ def test_cli_rules_list_terminal_and_json() -> None:
     assert json_res.exit_code == int(ExitCode.OK)
     payload = json.loads(json_res.stdout)
     assert payload["total_rules"] == 10
-    assert payload["implemented_rules"] == 0
-    assert payload["deferred_rules"] == 10
+    assert payload["implemented_rules"] == 10
+    assert payload["deferred_rules"] == 0
     assert all(r["category"] == "docker" for r in payload["rules"])
 
     impl_res = runner.invoke(
@@ -116,7 +122,7 @@ def test_cli_rules_list_terminal_and_json() -> None:
     )
     assert impl_res.exit_code == int(ExitCode.OK)
     impl_payload = json.loads(impl_res.stdout)
-    assert impl_payload["total_rules"] == 19
+    assert impl_payload["total_rules"] == 38
     assert all(r["implemented"] is True for r in impl_payload["rules"])
 
 
@@ -164,7 +170,12 @@ def test_mixed_monorepo_fixture_and_large_repo_handling(tmp_path: Path) -> None:
     assert res.exit_code == int(ExitCode.OK)
     payload = json.loads(res.stdout)
     assert payload["repository"]["is_monorepo"] is True
-    assert set(payload["summary"]["analyzers_executed"]) == {"node", "python"}
+    assert set(payload["summary"]["analyzers_executed"]) == {
+        "docker",
+        "environment",
+        "node",
+        "python",
+    }
     assert payload["summary"]["total_findings"] == 0
 
     # Large repository bounded by max_files_scanned

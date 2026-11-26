@@ -4,6 +4,17 @@ All notable changes to **Diagora** are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0a3] - 2026-11-26
+
+### Added
+- **M2 — Environment, Docker, Configuration & Deployment Diagnostics**:
+  - Shared safe structured configuration parsers in `diagora.analyzers.configuration` (`parse_yaml_safe`, `parse_env_file`, `parse_json_safe`, `parse_toml_safe`) and shared secret pattern classification `detect_secret_pattern()` in `diagora.core.security`.
+  - Concrete static `EnvironmentAnalyzer` implementing rules `ENV001`–`ENV006` across `.env*` files, Compose interpolations/environments, deployment manifests, and source usage checks.
+  - Concrete static `DockerAnalyzer` implementing rules `DK001`–`DK010` across `Dockerfile`, `compose.yaml` / `docker-compose.yml`, and `.dockerignore`.
+  - Concrete static `DeploymentAnalyzer` implementing rules `DP001`–`DP003` across `.github/workflows/*.yml`, `vercel.json`, `render.yaml`, `fly.toml`, `railway.json`, and `netlify.toml`.
+  - Registered `DeploymentAnalyzer`, `DockerAnalyzer`, and `EnvironmentAnalyzer` in `build_default_analyzer_registry()` and updated `38` rules to `implemented=True` (`1` runtime rule `ND010` remaining deferred to M3).
+  - Release notes in `docs/releases/v0.1.0a3.md`.
+
 ## [0.1.0a2] - 2026-11-24
 
 ### Added

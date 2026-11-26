@@ -16,10 +16,10 @@ Each rule defines:
 - **Remediation Guidance**: Actionable steps to fix the issue
 - **False-Positive Considerations**: Project contexts where the rule does not apply or lowers severity
 
-### Current Implementation Status (`v0.1.0a2`)
+### Current Implementation Status (`v0.1.0a3`)
 
-- **Implemented (`19` rules)**: `PY001`–`PY010` (`PythonAnalyzer`), `ND001`–`ND009` (`NodeAnalyzer`).
-- **Deferred (`20` rules)**: `ND010` (M3 runtime), `ENV001`–`ENV006` (M2), `DK001`–`DK010` (M2), `DP001`–`DP003` (M2).
+- **Implemented (`38` rules)**: `PY001`–`PY010` (`PythonAnalyzer`), `ND001`–`ND009` (`NodeAnalyzer`), `ENV001`–`ENV006` (`EnvironmentAnalyzer`), `DK001`–`DK010` (`DockerAnalyzer`), `DP001`–`DP003` (`DeploymentAnalyzer`).
+- **Deferred (`1` rule)**: `ND010` (M3 opt-in runtime probe).
 
 ---
 

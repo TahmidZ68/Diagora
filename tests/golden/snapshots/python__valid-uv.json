@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "product_name": "diagora",
-  "product_version": "0.1.0a2",
+  "product_version": "0.1.0a3",
   "scan_timestamp": "<TIMESTAMP>",
   "repository": {
     "repository_name": "valid-uv",
@@ -64,6 +64,7 @@
       "informational": 0
     },
     "analyzers_executed": [
+      "environment",
       "python"
     ],
     "policy_passed": true,

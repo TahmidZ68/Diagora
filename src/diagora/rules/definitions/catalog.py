@@ -380,6 +380,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         ),
         test_fixtures=["env/missing_env_example"],
         false_positive_considerations="Projects that require zero runtime environment variables.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="ENV002",
@@ -396,6 +397,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
             "Standard system variables (e.g., `PATH`, `HOME`, `CI`) do not "
             "belong in `.env.example`."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="ENV003",
@@ -412,6 +414,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Variables intentionally left blank in `.env.example` for user-supplied secrets."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="ENV004",
@@ -428,6 +431,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         ),
         test_fixtures=["env/committed_secret"],
         false_positive_considerations="Well-known test tokens or explicitly marked mock fixtures.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="ENV005",
@@ -444,6 +448,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         ),
         test_fixtures=["env/duplicate_keys"],
         false_positive_considerations="None; duplicate keys lead to silent override behavior.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="ENV006",
@@ -463,6 +468,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
             "Variables consumed dynamically by application code not scanned "
             "by static config parsers."
         ),
+        implemented=True,
     ),
     # Docker Rules (DK001 - DK010)
     RuleDefinition(
@@ -480,6 +486,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         ),
         test_fixtures=["docker/missing_dockerfile"],
         false_positive_considerations="None; `docker compose build` will deterministically fail.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK002",
@@ -493,6 +500,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         remediation_guidance="Set `build.context` to an existing directory inside the repository.",
         test_fixtures=["docker/invalid_build_context"],
         false_positive_considerations="None; an invalid build context prevents image builds.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK003",
@@ -508,6 +516,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         ),
         test_fixtures=["docker/invalid_compose"],
         false_positive_considerations="None.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK004",
@@ -526,6 +535,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Local `.env` files that are gitignored and expected to be created during onboarding."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK005",
@@ -544,6 +554,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Multi-stage Dockerfiles where different stages expose different ports."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK006",
@@ -561,6 +572,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "One-shot migration jobs or CLI utility containers that exit after completion."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK007",
@@ -578,6 +590,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Multi-file Compose setups where the base service is defined in an override file."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK008",
@@ -594,6 +607,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
             "Specialized system or Docker-in-Docker runner containers that "
             "explicitly require host privileges."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK009",
@@ -611,6 +625,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Local reverse proxies (e.g., Traefik) that intentionally read `/var/run/docker.sock`."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DK010",
@@ -625,6 +640,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Isolated subdirectory build contexts that contain only a binary and Dockerfile."
         ),
+        implemented=True,
     ),
     # Deployment Rules (DP001 - DP003)
     RuleDefinition(
@@ -639,6 +655,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         remediation_guidance="Fix syntax errors in the workflow or deployment manifest.",
         test_fixtures=["deployment/invalid_workflow_yaml"],
         false_positive_considerations="None.",
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DP002",
@@ -657,6 +674,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Files generated dynamically during an earlier step in the same CI job."
         ),
+        implemented=True,
     ),
     RuleDefinition(
         rule_id="DP003",
@@ -675,6 +693,7 @@ INITIAL_RULES: tuple[RuleDefinition, ...] = (
         false_positive_considerations=(
             "Multi-version CI test matrices that intentionally test older and newer runtimes."
         ),
+        implemented=True,
     ),
 )
 

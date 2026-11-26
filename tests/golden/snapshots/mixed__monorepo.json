@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "product_name": "diagora",
-  "product_version": "0.1.0a2",
+  "product_version": "0.1.0a3",
   "scan_timestamp": "<TIMESTAMP>",
   "repository": {
     "repository_name": "monorepo",
@@ -28,7 +28,10 @@
     ],
     "configuration_files": [],
     "docker_files": [
-      "compose.yaml"
+      ".dockerignore",
+      "backend/Dockerfile",
+      "compose.yaml",
+      "frontend/Dockerfile"
     ],
     "ci_workflows": [],
     "deployment_manifests": [],
@@ -64,14 +67,17 @@
       }
     ],
     "discovered_files": [
+      ".dockerignore",
+      "backend/Dockerfile",
       "backend/pyproject.toml",
       "backend/uv.lock",
       "compose.yaml",
+      "frontend/Dockerfile",
       "frontend/index.js",
       "frontend/package-lock.json",
       "frontend/package.json"
     ],
-    "total_files_inspected": 6
+    "total_files_inspected": 9
   },
   "findings": [],
   "issues": [],
@@ -86,6 +92,8 @@
       "informational": 0
     },
     "analyzers_executed": [
+      "docker",
+      "environment",
       "node",
       "python"
     ],

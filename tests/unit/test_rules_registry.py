@@ -37,11 +37,15 @@ def test_default_rule_catalog_contains_all_prd_rules() -> None:
 
     implemented = registry.list_rules(implemented_only=True)
     deferred = registry.list_rules(implemented_only=False)
-    assert len(implemented) == 19
-    assert len(deferred) == 20
+    assert len(implemented) == 38
+    assert len(deferred) == 1
+    assert {r.rule_id for r in deferred} == {"ND010"}
     assert {r.rule_id for r in implemented} == {
         *(f"PY{i:03d}" for i in range(1, 11)),
         *(f"ND{i:03d}" for i in range(1, 10)),
+        *(f"ENV{i:03d}" for i in range(1, 7)),
+        *(f"DK{i:03d}" for i in range(1, 11)),
+        *(f"DP{i:03d}" for i in range(1, 4)),
     }
 
 

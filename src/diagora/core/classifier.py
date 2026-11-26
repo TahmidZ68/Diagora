@@ -124,6 +124,14 @@ def _is_ci_workflow(rel_path: str) -> bool:
     )
 
 
+def _is_env_file(filename: str) -> bool:
+    if filename in ENV_CONFIG_NAMES:
+        return True
+    return filename == ".env" or (
+        filename.startswith(".env.") and not filename.endswith((".bak", ".orig"))
+    )
+
+
 def _is_example_or_fixture_path(rel_dir: str) -> bool:
     if rel_dir in {".", ""}:
         return False
@@ -244,7 +252,7 @@ class ProjectClassifier:
                 and rel_path not in configuration_files
                 and name not in UNSUPPORTED_ECOSYSTEM_FILES
             )
-            if name in ENV_CONFIG_NAMES or is_other_config:
+            if _is_env_file(name) or is_other_config:
                 configuration_files.append(rel_path)
 
             # 6. Unsupported language/project markers

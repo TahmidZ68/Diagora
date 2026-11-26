@@ -53,23 +53,34 @@ _STANDALONE_BEARER_PATTERN = re.compile(
     r"(?i)\b(bearer[ \t]+)([A-Za-z0-9._~+/\-]{12,}=*)(?=$|[\s\"',;\]})])"
 )
 
-_TOKEN_VALUE_PATTERNS: tuple[re.Pattern[str], ...] = (
+_LABELED_TOKEN_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     # GitHub personal access tokens and fine-grained tokens
-    re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9_]{16,}|github_pat_[A-Za-z0-9_]{16,})\b"),
+    (
+        "GitHub access token",
+        re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9_]{16,}|github_pat_[A-Za-z0-9_]{16,})\b"),
+    ),
     # OpenAI / Anthropic / Stripe style sk- keys
-    re.compile(r"\bsk-(?:proj-|ant-|live-|test-)?[A-Za-z0-9_\-]{16,}\b"),
+    (
+        "API secret key (sk-)",
+        re.compile(r"\bsk-(?:proj-|ant-|live-|test-)?[A-Za-z0-9_\-]{16,}\b"),
+    ),
     # AWS Access Key IDs
-    re.compile(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b"),
+    ("AWS Access Key ID", re.compile(r"\b(?:AKIA|ASIA)[0-9A-Z]{16}\b")),
     # Google API keys
-    re.compile(r"\bAIza[0-9A-Za-z\-_]{35,}\b"),
+    ("Google API key", re.compile(r"\bAIza[0-9A-Za-z\-_]{35,}\b")),
     # npm and PyPI tokens
-    re.compile(r"\bnpm_[A-Za-z0-9]{20,}\b"),
-    re.compile(r"\bpypi-[A-Za-z0-9\-_]{20,}\b"),
+    ("npm token", re.compile(r"\bnpm_[A-Za-z0-9]{20,}\b")),
+    ("PyPI API token", re.compile(r"\bpypi-[A-Za-z0-9\-_]{20,}\b")),
     # Slack tokens
-    re.compile(r"\bxox[baprs]-[A-Za-z0-9\-]{10,}\b"),
+    ("Slack API token", re.compile(r"\bxox[baprs]-[A-Za-z0-9\-]{10,}\b")),
     # JWTs
-    re.compile(r"\beyJ[A-Za-z0-9_\-]{10,}\.eyJ[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{10,}\b"),
+    (
+        "JSON Web Token",
+        re.compile(r"\beyJ[A-Za-z0-9_\-]{10,}\.eyJ[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{10,}\b"),
+    ),
 )
+
+_TOKEN_VALUE_PATTERNS: tuple[re.Pattern[str], ...] = tuple(p for _, p in _LABELED_TOKEN_PATTERNS)
 
 _INLINE_ASSIGNMENT_PATTERN = re.compile(
     r"(?i)\b([A-Z0-9_]*(?:"
@@ -113,6 +124,28 @@ def is_sensitive_key(key: str) -> bool:
     if not normalized:
         return False
     return bool(_SENSITIVE_KEY_PATTERN.search(normalized))
+
+
+def detect_secret_pattern(text: str) -> str | None:
+    """Return a safe descriptive label if `text` matches a known secret or key pattern."""
+    if not text:
+        return None
+    if _PEM_PRIVATE_KEY_PATTERN.search(text):
+        return "PEM private key"
+    if _URL_CREDENTIALS_PATTERN.search(text):
+        return "URL with embedded credentials"
+    if _AUTH_HEADER_PATTERN.search(text):
+        return "Authorization credential header"
+    basic_match = _STANDALONE_BASIC_PATTERN.search(text)
+    if basic_match and _is_likely_basic_base64(basic_match.group(2)):
+        return "HTTP Basic credential"
+    bearer_match = _STANDALONE_BEARER_PATTERN.search(text)
+    if bearer_match and _is_likely_bearer_token(bearer_match.group(2)):
+        return "Bearer token"
+    for label, pattern in _LABELED_TOKEN_PATTERNS:
+        if pattern.search(text):
+            return label
+    return None
 
 
 def redact_secrets(text: str) -> str:

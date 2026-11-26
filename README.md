@@ -5,7 +5,7 @@
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Version: 0.1.0a2](https://img.shields.io/badge/version-0.1.0a2-informational.svg)](CHANGELOG.md)
+[![Version: 0.1.0a3](https://img.shields.io/badge/version-0.1.0a3-informational.svg)](CHANGELOG.md)
 
 ---
 
@@ -25,15 +25,18 @@ Diagora is engineered around a three-stage diagnostic model:
 2. **Optional opt-in runtime probes second** *(planned)* — isolated behind explicit `--runtime` flags and an executable allowlist.
 3. **Cross-layer root-cause correlation third** *(in progress; core graph foundation built, cross-layer correlation rules planned)* — designed to connect related failures across dependencies, configuration, Docker, deployment, and runtime rather than emitting isolated, context-free warnings.
 
-> **Transparency note:** In `v0.1.0a2` (Milestone M1), concrete static analyzers are implemented for **Python** (`PY001`–`PY010`) and **Node.js** (`ND001`–`ND009`). Environment, Docker, Deployment, Runtime, Cross-Layer Correlation Rules, and `--approve` Remediation are deferred to upcoming milestones and are clearly labeled below.
+> **Transparency note:** In `v0.1.0a3` (Milestone M2), concrete static analyzers are implemented for **Python** (`PY001`–`PY010`), **Node.js** (`ND001`–`ND009`), **Environment** (`ENV001`–`ENV006`), **Docker / Compose** (`DK001`–`DK010`), and **Deployment / CI** (`DP001`–`DP003`). Only opt-in runtime checks (`ND010`), Cross-Layer Correlation Rules, and `--approve` Remediation remain deferred to upcoming milestones.
 
 ---
 
-## Key Capabilities (`v0.1.0a2`)
+## Key Capabilities (`v0.1.0a3`)
 
 - **Repository & Monorepo Discovery**: Detects Python, Node.js, mixed Python+Node repositories, monorepo subprojects, and workspaces while avoiding false subprojects inside `examples/`, `docs/`, or `tests/fixtures/`.
 - **Python Static Diagnostics (`PY001`–`PY010`)**: Parses `pyproject.toml`, `requirements.txt`, `requirements-dev.txt`, `Pipfile`, `Pipfile.lock`, `poetry.lock`, `uv.lock`, `setup.cfg`, `setup.py` (via safe `ast.parse`, never executed), `.python-version`, and `runtime.txt`.
 - **Node.js Static Diagnostics (`ND001`–`ND009`)**: Parses `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock` (v1 & Berry), `pnpm-workspace.yaml`, `.npmrc`, `.nvmrc`, `.node-version`, and `tsconfig.json` (JSONC-aware).
+- **Environment & Secret Hygiene (`ENV001`–`ENV006`)**: Inspects `.env*` files, Compose interpolations, deployment environment tables, and tracked configs for missing `.env.example`, undocumented/empty/duplicate/unused vars, and committed secrets.
+- **Docker & Compose Diagnostics (`DK001`–`DK010`)**: Validates `Dockerfile` instructions, `compose.yaml` / `docker-compose.yml` structure, build contexts, `env_file` targets, `EXPOSE` vs. `ports`, `HEALTHCHECK`, `depends_on`, privileged settings, bind mounts, and `.dockerignore`.
+- **Deployment & CI Diagnostics (`DP001`–`DP003`)**: Validates `.github/workflows/*.yml`, `vercel.json`, `render.yaml`, `fly.toml`, `railway.json`, and `netlify.toml` syntax, script/file references, and runtime version consistency.
 - **Honest Execution Tracking**: Reports `analyzers_executed` and `execution_status` (`completed` vs. `no_applicable_analyzers`) so unsupported repositories are never falsely reported as verified clean scans.
 - **Multi-Format Reporting**: Rich terminal tables, versioned JSON (`schema_version: "1.0.0"`), GitHub-Flavored Markdown, and SARIF 2.1.0.
 
@@ -41,13 +44,13 @@ Diagora is engineered around a three-stage diagnostic model:
 
 ## Supported Ecosystems
 
-| Ecosystem | Current Status (`v0.1.0a2`) | Files Inspected |
+| Ecosystem | Current Status (`v0.1.0a3`) | Files Inspected |
 | --------- | --------------------------- | --------------- |
 | **Python** | **Implemented** (`PY001`–`PY010`) | `pyproject.toml`, `requirements*.txt`, `Pipfile`, `Pipfile.lock`, `poetry.lock`, `uv.lock`, `setup.cfg`, `setup.py` (AST), `.python-version`, `runtime.txt` |
 | **Node.js / TypeScript** | **Implemented** (`ND001`–`ND009`) | `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, `pnpm-workspace.yaml`, `.npmrc`, `.nvmrc`, `.node-version`, `tsconfig.json` |
-| **Docker / Compose** | Discovery only (**Deferred** to M2) | `Dockerfile`, `compose.yaml`, `docker-compose.yml`, `.dockerignore` |
-| **Environment** | Discovery only (**Deferred** to M2) | `.env.example`, `.env.sample`, `.gitignore` |
-| **Deployment / CI** | Discovery only (**Deferred** to M2) | `.github/workflows/*.yml`, `vercel.json`, generic manifests |
+| **Docker / Compose** | **Implemented** (`DK001`–`DK010`) | `Dockerfile`, `*.Dockerfile`, `compose.yaml`, `docker-compose.yml`, `.dockerignore` |
+| **Environment** | **Implemented** (`ENV001`–`ENV006`) | `.env`, `.env.*`, `.env.example`, `.env.sample`, `.gitignore` |
+| **Deployment / CI** | **Implemented** (`DP001`–`DP003`) | `.github/workflows/*.yml`, `vercel.json`, `render.yaml`, `fly.toml`, `railway.json`, `netlify.toml` |
 
 ---
 
@@ -73,7 +76,7 @@ pip install -e .
 Or install from a built wheel:
 
 ```bash
-pip install dist/diagora_cli-0.1.0a2-py3-none-any.whl
+pip install dist/diagora_cli-0.1.0a3-py3-none-any.whl
 ```
 
 ---
@@ -180,19 +183,19 @@ Run `diagora scan . --format sarif` or `diagora report . --output report.sarif` 
 
 ## Supported Rule Catalog
 
-Diagora registers **39 rules** (`19 implemented`, `20 deferred`). Run `diagora rules list` for live status.
+Diagora registers **39 rules** (`38 implemented`, `1 deferred`). Run `diagora rules list` for live status.
 
-### Implemented Rules (`19`)
+### Implemented Rules (`38`)
 
 - **Python (`PY001`–`PY010`)**: `PY001` Missing Python version declaration, `PY002` Invalid `pyproject.toml` / manifest, `PY003` Missing dependency manifest, `PY004` Missing expected lockfile (Poetry/uv/Pipenv), `PY005` Conflicting dependency declarations, `PY006` Missing `[build-system]` on distributable packages, `PY007` Invalid Python version constraint, `PY008` Missing dev dependency group, `PY009` Inconsistent requirements files / lockfile drift, `PY010` Missing package entry point reference.
 - **Node.js (`ND001`–`ND009`)**: `ND001` Invalid `package.json`, `ND002` Missing Corepack `packageManager`, `ND003` Multiple conflicting lockfiles / manager mismatch, `ND004` Missing/mismatched Node.js engine requirement, `ND005` Invalid script configuration, `ND006` Missing referenced entry point, `ND007` Workspace configuration inconsistency, `ND008` TypeScript configuration inconsistency, `ND009` Lockfile/package manifest mismatch.
+- **Environment (`ENV001`–`ENV006`)**: `ENV001` Missing environment example file, `ENV002` Referenced variable absent from example, `ENV003` Empty required environment declaration, `ENV004` Potential secret committed to repository, `ENV005` Duplicate or conflicting declarations, `ENV006` Unused example variable.
+- **Docker (`DK001`–`DK010`)**: `DK001` Missing referenced Dockerfile, `DK002` Invalid build context, `DK003` Invalid Compose configuration, `DK004` Referenced environment file missing, `DK005` Port configuration inconsistency, `DK006` Missing health check, `DK007` Undefined Compose service reference, `DK008` Potentially unsafe privileged configuration, `DK009` Suspicious volume mount, `DK010` Missing `.dockerignore`.
+- **Deployment (`DP001`–`DP003`)**: `DP001` Invalid deployment or workflow manifest, `DP002` Missing referenced deployment script or file, `DP003` Inconsistent deployment runtime version.
 
-### Deferred Rules (`20`)
+### Deferred Rules (`1`)
 
 - **Node.js Runtime (`ND010`)**: Runtime package manager availability (M3).
-- **Environment (`ENV001`–`ENV006`)**: Environment template and secret hygiene rules (M2).
-- **Docker (`DK001`–`DK010`)**: Dockerfile and Compose static rules (M2).
-- **Deployment (`DP001`–`DP003`)**: GitHub Actions and `vercel.json` rules (M2).
 
 See [Diagnostic Rules Catalog](docs/rules.md) for full details.
 
@@ -205,9 +208,9 @@ See [Diagnostic Rules Catalog](docs/rules.md) for full details.
 | Core Pydantic v2 models, rule registry, CLI (`scan`, `doctor`, `report`, `rules list`) | **Implemented** |
 | Security boundaries (path containment, symlink guard, size/depth limits, secret redaction) | **Implemented** |
 | Python & Node.js static analyzers (`PY001`–`PY010`, `ND001`–`ND009`) | **Implemented** |
+| Environment, Docker, and Deployment static analyzers (`ENV`, `DK`, `DP`) | **Implemented** |
 | Terminal, JSON, Markdown, and SARIF 2.1.0 reporting | **Implemented** |
 | Finding normalizer & explicit `related_findings` grouping foundation | **Implemented** *(cross-layer rules planned)* |
-| Environment, Docker, and Deployment static analyzers (`ENV`, `DK`, `DP`) | **Planned (M2)** |
 | Opt-in runtime probes (`--runtime` / `ND010`) | **Planned (M3)** *(allowlist scaffolded)* |
 | Cross-layer root-cause correlation graph | **Planned (M4)** |
 | Rule-based remediation previews, `--approve`, backup & verification | **Planned (M5)** *(safety guards scaffolded)* |
@@ -235,7 +238,7 @@ CLI (diagora.cli)
   └─▶ ScanOrchestrator (diagora.core.orchestrator)
         ├─▶ FileSystemRepositoryDiscoverer (boundary & symlink safe)
         ├─▶ ProjectClassifier (Python, Node.js, monorepo, workspaces)
-        ├─▶ AnalyzerRegistry ─▶ PythonAnalyzer (PY001–PY010), NodeAnalyzer (ND001–ND009)
+        ├─▶ AnalyzerRegistry ─▶ Python, Node, Docker, Environment, Deployment
         ├─▶ FindingNormalizer (deduplication & deterministic ordering)
         ├─▶ FindingCorrelator (DiagnosticIssue synthesis)
         └─▶ Reporting (Terminal / JSON / Markdown / SARIF 2.1.0)
@@ -276,13 +279,13 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and ou
 
 - **M0 (v0.1.0a1):** Core foundation, models, security boundaries, CLI, reporting — **Complete**
 - **M1 (v0.1.0a2):** Python & Node.js static analyzers (`PY001`–`PY010`, `ND001`–`ND009`) — **Complete**
-- **M2 (v0.1.0a3):** Environment, Docker, and Deployment static analyzers — **Planned**
+- **M2 (v0.1.0a3):** Environment, Docker, and Deployment static analyzers — **Complete**
 - **M3 (v0.1.0b1):** Opt-in runtime probes — **Planned**
 - **M4 (v0.1.0b1):** Cross-layer root-cause correlation engine — **Planned**
 - **M5 (v0.1.0b2):** Remediation patch previews, `--approve`, backup & verification — **Planned**
 - **M6 (v0.1.0):** Public Alpha release validation — **Planned**
 
-See [Product Roadmap](docs/roadmap.md) and [v0.1.0a2 Release Notes](docs/releases/v0.1.0a2.md).
+See [Product Roadmap](docs/roadmap.md) and [v0.1.0a3 Release Notes](docs/releases/v0.1.0a3.md).
 
 ---
 
