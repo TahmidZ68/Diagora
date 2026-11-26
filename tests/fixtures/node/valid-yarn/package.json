@@ -1,0 +1,12 @@
+{
+  "name": "valid-yarn-app",
+  "version": "1.0.0",
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "ms": "^2.1.3"
+  }
+}

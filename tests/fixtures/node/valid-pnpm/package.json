@@ -1,0 +1,16 @@
+{
+  "name": "valid-pnpm-app",
+  "version": "1.0.0",
+  "packageManager": "pnpm@9.1.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  }
+}

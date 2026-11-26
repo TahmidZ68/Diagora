@@ -1,0 +1,8 @@
+{
+  // JSONC comment allowed in tsconfig
+  "compilerOptions": {
+    "target": "ES2022",
+    "outDir": "dist",
+    "strict": true,
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "broken-node-app",
+  "version": "1.0.0",
+  "packageManager": "npm@10.0.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "lib/missing.js",
+  "scripts": {
+    "seed": "node ./scripts/missing-seed.js",
+    "empty": ""
+  },
+  "dependencies": {
+    "chalk": "^5.3.0"
+  }
+}

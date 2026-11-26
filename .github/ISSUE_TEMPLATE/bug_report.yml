@@ -1,0 +1,49 @@
+name: Bug Report
+description: Report a diagnostic bug, false positive, crash, or security issue (for security vulnerabilities, please use GitHub Security Advisories instead).
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue in **Diagora**. If this is a security vulnerability, please do **not** open a public issue — submit a private GitHub Security Advisory instead.
+  - type: input
+    id: version
+    attributes:
+      label: Diagora Version
+      description: Output of `diagora --version`
+      placeholder: "diagora 0.1.0a2"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Linux
+        - macOS
+        - Windows
+    validations:
+      required: true
+  - type: input
+    id: python-version
+    attributes:
+      label: Python Version
+      description: Output of `python --version`
+      placeholder: "Python 3.12.1"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened vs. what you expected (for false positives/negatives, include the Rule ID).
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Reproduction
+      description: Steps or minimal manifest snippet to reproduce (redact any real secrets first).
+    validations:
+      required: true

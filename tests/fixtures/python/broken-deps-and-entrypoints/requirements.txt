@@ -1,0 +1,3 @@
+httpx>=0.27.0
+requests===bad-spec
+-r missing-base.txt

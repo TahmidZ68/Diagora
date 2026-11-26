@@ -1,0 +1,13 @@
+lockfileVersion: '9.0'
+importers:
+  .: {}
+  packages/core:
+    dependencies:
+      zod:
+        specifier: ^3.23.0
+        version: 3.23.8
+  packages/web:
+    dependencies:
+      "@acme/core":
+        specifier: workspace:*
+        version: link:../core

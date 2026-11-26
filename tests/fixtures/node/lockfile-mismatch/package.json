@@ -1,0 +1,13 @@
+{
+  "name": "lockfile-mismatch-app",
+  "version": "1.0.0",
+  "packageManager": "npm@10.5.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "lodash": "^4.17.21"
+  }
+}

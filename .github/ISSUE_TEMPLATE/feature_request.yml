@@ -1,0 +1,33 @@
+name: Feature Request
+description: Propose a new diagnostic rule, ecosystem enhancement, or CLI improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Describe the repository setup, configuration, or failure scenario Diagora should diagnose.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Describe the rule logic, evidence requirements (`observed` vs. `expected`), and false-positive considerations.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Target Category
+      options:
+        - Python
+        - Node.js
+        - Environment
+        - Docker
+        - Deployment
+        - Root-Cause Correlation
+        - CLI / Reporting
+    validations:
+      required: true

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "product_name": "diagora",
+  "product_version": "0.1.0a2",
+  "scan_timestamp": "<TIMESTAMP>",
+  "repository": {
+    "repository_name": "valid-uv",
+    "relative_path": ".",
+    "is_git_repository": false,
+    "is_monorepo": false,
+    "is_empty": false,
+    "detected_ecosystems": [
+      "python"
+    ],
+    "package_managers": [
+      "uv"
+    ],
+    "manifests": [
+      "pyproject.toml"
+    ],
+    "lockfiles": [
+      "uv.lock"
+    ],
+    "configuration_files": [],
+    "docker_files": [],
+    "ci_workflows": [],
+    "deployment_manifests": [],
+    "unsupported_files": [],
+    "subprojects": [
+      {
+        "path": ".",
+        "ecosystems": [
+          "python"
+        ],
+        "manifests": [
+          "pyproject.toml"
+        ],
+        "lockfiles": [
+          "uv.lock"
+        ],
+        "config_files": [],
+        "is_workspace_package": false
+      }
+    ],
+    "discovered_files": [
+      "pyproject.toml",
+      "src/uvapp/__init__.py",
+      "src/uvapp/cli.py",
+      "tests/test_uv.py",
+      "uv.lock"
+    ],
+    "total_files_inspected": 5
+  },
+  "findings": [],
+  "issues": [],
+  "summary": {
+    "total_findings": 0,
+    "total_issues": 0,
+    "by_severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "informational": 0
+    },
+    "analyzers_executed": [
+      "python"
+    ],
+    "policy_passed": true,
+    "execution_status": "completed"
+  },
+  "runtime_enabled": false,
+  "verification_status": "not_applicable",
+  "warnings": []
+}

@@ -1,0 +1,8 @@
+{
+  "name": "acme-monorepo",
+  "private": true,
+  "packageManager": "pnpm@9.1.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

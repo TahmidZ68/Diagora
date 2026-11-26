@@ -1,0 +1,12 @@
+{
+  "name": "broken-ws",
+  "private": true,
+  "packageManager": "npm@10.5.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "missing-apps/*"
+  ]
+}

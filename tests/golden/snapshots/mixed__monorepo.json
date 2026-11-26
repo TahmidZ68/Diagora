@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "product_name": "diagora",
+  "product_version": "0.1.0a2",
+  "scan_timestamp": "<TIMESTAMP>",
+  "repository": {
+    "repository_name": "monorepo",
+    "relative_path": ".",
+    "is_git_repository": false,
+    "is_monorepo": true,
+    "is_empty": false,
+    "detected_ecosystems": [
+      "docker",
+      "node",
+      "python"
+    ],
+    "package_managers": [
+      "npm",
+      "uv"
+    ],
+    "manifests": [
+      "backend/pyproject.toml",
+      "frontend/package.json"
+    ],
+    "lockfiles": [
+      "backend/uv.lock",
+      "frontend/package-lock.json"
+    ],
+    "configuration_files": [],
+    "docker_files": [
+      "compose.yaml"
+    ],
+    "ci_workflows": [],
+    "deployment_manifests": [],
+    "unsupported_files": [],
+    "subprojects": [
+      {
+        "path": "backend",
+        "ecosystems": [
+          "python"
+        ],
+        "manifests": [
+          "backend/pyproject.toml"
+        ],
+        "lockfiles": [
+          "backend/uv.lock"
+        ],
+        "config_files": [],
+        "is_workspace_package": false
+      },
+      {
+        "path": "frontend",
+        "ecosystems": [
+          "node"
+        ],
+        "manifests": [
+          "frontend/package.json"
+        ],
+        "lockfiles": [
+          "frontend/package-lock.json"
+        ],
+        "config_files": [],
+        "is_workspace_package": false
+      }
+    ],
+    "discovered_files": [
+      "backend/pyproject.toml",
+      "backend/uv.lock",
+      "compose.yaml",
+      "frontend/index.js",
+      "frontend/package-lock.json",
+      "frontend/package.json"
+    ],
+    "total_files_inspected": 6
+  },
+  "findings": [],
+  "issues": [],
+  "summary": {
+    "total_findings": 0,
+    "total_issues": 0,
+    "by_severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "informational": 0
+    },
+    "analyzers_executed": [
+      "node",
+      "python"
+    ],
+    "policy_passed": true,
+    "execution_status": "completed"
+  },
+  "runtime_enabled": false,
+  "verification_status": "not_applicable",
+  "warnings": []
+}

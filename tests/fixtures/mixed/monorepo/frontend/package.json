@@ -1,0 +1,12 @@
+{
+  "name": "mixed-frontend",
+  "version": "1.0.0",
+  "packageManager": "npm@10.5.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "react": "^18.3.0"
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "schema_version": "1.0.0",
+  "product_name": "diagora",
+  "product_version": "0.1.0a2",
+  "scan_timestamp": "<TIMESTAMP>",
+  "repository": {
+    "repository_name": "broken-deps-and-entrypoints",
+    "relative_path": ".",
+    "is_git_repository": false,
+    "is_monorepo": false,
+    "is_empty": false,
+    "detected_ecosystems": [
+      "python"
+    ],
+    "package_managers": [
+      "pip"
+    ],
+    "manifests": [
+      "pyproject.toml",
+      "requirements-dev.txt",
+      "requirements.txt"
+    ],
+    "lockfiles": [],
+    "configuration_files": [],
+    "docker_files": [],
+    "ci_workflows": [],
+    "deployment_manifests": [],
+    "unsupported_files": [],
+    "subprojects": [
+      {
+        "path": ".",
+        "ecosystems": [
+          "python"
+        ],
+        "manifests": [
+          "pyproject.toml",
+          "requirements-dev.txt",
+          "requirements.txt"
+        ],
+        "lockfiles": [],
+        "config_files": [],
+        "is_workspace_package": false
+      }
+    ],
+    "discovered_files": [
+      "pyproject.toml",
+      "requirements-dev.txt",
+      "requirements.txt",
+      "tests/test_broken.py"
+    ],
+    "total_files_inspected": 4
+  },
+  "findings": [
+    {
+      "id": "py-0007",
+      "rule_id": "PY005",
+      "title": "Conflicting dependency declarations",
+      "description": "Mutually exclusive version constraints are declared for the same Python package.",
+      "severity": "high",
+      "confidence": "confirmed",
+      "category": "python",
+      "file": "pyproject.toml",
+      "line": 7,
+      "evidence": {
+        "observed": "pydantic: 'pydantic>=2.0.0' (pyproject.toml) conflicts with 'pydantic<2.0.0' (pyproject.toml)",
+        "expected": "Compatible version constraints for 'pydantic'",
+        "details": {
+          "package": "pydantic",
+          "first": {
+            "file": "pyproject.toml",
+            "group": "runtime",
+            "specifier": ">=2.0.0"
+          },
+          "second": {
+            "file": "pyproject.toml",
+            "group": "runtime",
+            "specifier": "<2.0.0"
+          }
+        }
+      },
+      "recommendation": "Align package version constraints across dependency tables and requirements files.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "py-0005",
+      "rule_id": "PY007",
+      "title": "Invalid Python version constraint",
+      "description": "The declared `requires-python` or Python version specifier is not a valid PEP 440 specifier.",
+      "severity": "high",
+      "confidence": "confirmed",
+      "category": "python",
+      "file": "pyproject.toml",
+      "line": 4,
+      "evidence": {
+        "observed": "python3.12",
+        "expected": "Valid PEP 440 version constraint (e.g., >=3.10)",
+        "details": {}
+      },
+      "recommendation": "Replace the version string with a valid PEP 440 specifier such as `>=3.10,<4.0`.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "py-0001",
+      "rule_id": "PY010",
+      "title": "Missing package entry point reference",
+      "description": "A script or entry point in pyproject.toml references a Python module path that does not exist in the repository.",
+      "severity": "high",
+      "confidence": "high",
+      "category": "python",
+      "file": "pyproject.toml",
+      "line": 11,
+      "evidence": {
+        "observed": "broken-cli -> brokenpkg.missing_mod:main (module not found)",
+        "expected": "Existing module file at brokenpkg/missing_mod.py or src/brokenpkg/missing_mod.py",
+        "details": {
+          "section": "project.scripts",
+          "checked_paths": [
+            "brokenpkg/missing_mod.py",
+            "brokenpkg/missing_mod/__init__.py",
+            "src/brokenpkg/missing_mod.py",
+            "src/brokenpkg/missing_mod/__init__.py"
+          ]
+        }
+      },
+      "recommendation": "Update `[project.scripts]` to match the actual package directory and module name.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "py-0006",
+      "rule_id": "PY009",
+      "title": "Inconsistent requirements files",
+      "description": "Multiple requirements files or manifests specify divergent pins for shared dependencies.",
+      "severity": "medium",
+      "confidence": "confirmed",
+      "category": "python",
+      "file": "requirements-dev.txt",
+      "line": 1,
+      "evidence": {
+        "observed": "httpx: 'httpx>=0.27.0' (requirements.txt) conflicts with 'httpx<0.25.0' (requirements-dev.txt)",
+        "expected": "Compatible version constraints for 'httpx'",
+        "details": {
+          "package": "httpx",
+          "first": {
+            "file": "requirements.txt",
+            "group": "runtime",
+            "specifier": ">=0.27.0"
+          },
+          "second": {
+            "file": "requirements-dev.txt",
+            "group": "dev",
+            "specifier": "<0.25.0"
+          }
+        }
+      },
+      "recommendation": "Consolidate shared dependencies or reference base requirements via `-r requirements.txt`.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "py-0003",
+      "rule_id": "PY009",
+      "title": "Invalid requirement declaration in requirements.txt",
+      "description": "Invalid version specifier '===bad-spec' for 'requests'.",
+      "severity": "medium",
+      "confidence": "confirmed",
+      "category": "python",
+      "file": "requirements.txt",
+      "line": 2,
+      "evidence": {
+        "observed": "requests===bad-spec",
+        "expected": "Valid PEP 508 requirement line",
+        "details": {}
+      },
+      "recommendation": "Consolidate shared dependencies or reference base requirements via `-r requirements.txt`.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "py-0004",
+      "rule_id": "PY009",
+      "title": "Missing included requirements file in requirements.txt",
+      "description": "Directive `-r missing-base.txt` references a file that does not exist.",
+      "severity": "medium",
+      "confidence": "confirmed",
+      "category": "python",
+      "file": "requirements.txt",
+      "line": 3,
+      "evidence": {
+        "observed": "missing-base.txt",
+        "expected": "Existing requirements/constraints file inside repository",
+        "details": {}
+      },
+      "recommendation": "Consolidate shared dependencies or reference base requirements via `-r requirements.txt`.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "py-0002",
+      "rule_id": "PY006",
+      "title": "Missing build-system configuration",
+      "description": "Distributable Python package pyproject.toml omits the `[build-system]` table.",
+      "severity": "low",
+      "confidence": "high",
+      "category": "python",
+      "file": "pyproject.toml",
+      "line": 1,
+      "evidence": {
+        "observed": "Missing [build-system] in distributable pyproject.toml",
+        "expected": "Configured [build-system] table (e.g., hatchling or setuptools)",
+        "details": {}
+      },
+      "recommendation": "Add a `[build-system]` section (e.g., Hatchling, Setuptools, Flit) to pyproject.toml.",
+      "related_findings": [],
+      "status": "open"
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "total_findings": 7,
+    "total_issues": 0,
+    "by_severity": {
+      "critical": 0,
+      "high": 3,
+      "medium": 3,
+      "low": 1,
+      "informational": 0
+    },
+    "analyzers_executed": [
+      "python"
+    ],
+    "policy_passed": true,
+    "execution_status": "completed"
+  },
+  "runtime_enabled": false,
+  "verification_status": "not_applicable",
+  "warnings": []
+}

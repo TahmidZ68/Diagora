@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0.0",
+  "product_name": "diagora",
+  "product_version": "0.1.0a2",
+  "scan_timestamp": "<TIMESTAMP>",
+  "repository": {
+    "repository_name": "broken-node-project",
+    "relative_path": ".",
+    "is_git_repository": false,
+    "is_monorepo": false,
+    "is_empty": false,
+    "detected_ecosystems": [
+      "node"
+    ],
+    "package_managers": [
+      "npm",
+      "yarn"
+    ],
+    "manifests": [
+      "package.json"
+    ],
+    "lockfiles": [
+      "package-lock.json",
+      "yarn.lock"
+    ],
+    "configuration_files": [
+      "tsconfig.json"
+    ],
+    "docker_files": [],
+    "ci_workflows": [],
+    "deployment_manifests": [],
+    "unsupported_files": [],
+    "subprojects": [
+      {
+        "path": ".",
+        "ecosystems": [
+          "node"
+        ],
+        "manifests": [
+          "package.json"
+        ],
+        "lockfiles": [
+          "package-lock.json",
+          "yarn.lock"
+        ],
+        "config_files": [
+          "tsconfig.json"
+        ],
+        "is_workspace_package": false
+      }
+    ],
+    "discovered_files": [
+      "package-lock.json",
+      "package.json",
+      "tsconfig.json",
+      "yarn.lock"
+    ],
+    "total_files_inspected": 4
+  },
+  "findings": [
+    {
+      "id": "nd-0002",
+      "rule_id": "ND003",
+      "title": "Multiple conflicting lockfiles",
+      "description": "Multiple Node.js lockfiles (package-lock.json, pnpm-lock.yaml, yarn.lock) exist in the same project root.",
+      "severity": "high",
+      "confidence": "confirmed",
+      "category": "node",
+      "file": "package-lock.json",
+      "line": null,
+      "evidence": {
+        "observed": "Multiple lockfiles in '.': package-lock.json, yarn.lock",
+        "expected": "A single lockfile matching the project's package manager",
+        "details": {
+          "directory": ".",
+          "lockfiles": [
+            "package-lock.json",
+            "yarn.lock"
+          ]
+        }
+      },
+      "recommendation": "Remove redundant lockfiles and retain only the lockfile for your active package manager.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "nd-0005",
+      "rule_id": "ND006",
+      "title": "Missing referenced entry point",
+      "description": "The `main`, `module`, `types`, or `bin` target declared in package.json does not exist.",
+      "severity": "high",
+      "confidence": "high",
+      "category": "node",
+      "file": "package.json",
+      "line": 8,
+      "evidence": {
+        "observed": "`main` points to missing file 'lib/missing.js'",
+        "expected": "Existing entry point file at 'lib/missing.js'",
+        "details": {
+          "field": "main",
+          "in_tsconfig_outdir": false
+        }
+      },
+      "recommendation": "Ensure the entry point path in package.json matches the source or compiled output layout.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "nd-0003",
+      "rule_id": "ND005",
+      "title": "Invalid script configuration",
+      "description": "A script in `package.json` references a nonexistent relative script file or empty command.",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "node",
+      "file": "package.json",
+      "line": 10,
+      "evidence": {
+        "observed": "Script 'seed' references missing file './scripts/missing-seed.js'",
+        "expected": "Existing script target at 'scripts/missing-seed.js'",
+        "details": {}
+      },
+      "recommendation": "Update the script command in `package.json` to reference a valid file or binary.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "nd-0004",
+      "rule_id": "ND005",
+      "title": "Invalid script configuration",
+      "description": "A script in `package.json` references a nonexistent relative script file or empty command.",
+      "severity": "medium",
+      "confidence": "confirmed",
+      "category": "node",
+      "file": "package.json",
+      "line": 11,
+      "evidence": {
+        "observed": "empty: ''",
+        "expected": "Non-empty command string",
+        "details": {}
+      },
+      "recommendation": "Update the script command in `package.json` to reference a valid file or binary.",
+      "related_findings": [],
+      "status": "open"
+    },
+    {
+      "id": "nd-0001",
+      "rule_id": "ND008",
+      "title": "TypeScript configuration inconsistency",
+      "description": "tsconfig.json cannot be parsed or its `extends` path references a missing configuration file.",
+      "severity": "medium",
+      "confidence": "confirmed",
+      "category": "node",
+      "file": "tsconfig.json",
+      "line": 2,
+      "evidence": {
+        "observed": "tsconfig `extends` target './tsconfig.base.json' does not exist",
+        "expected": "Existing base tsconfig JSON file",
+        "details": {}
+      },
+      "recommendation": "Fix tsconfig.json syntax or restore the referenced base configuration file.",
+      "related_findings": [],
+      "status": "open"
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "total_findings": 5,
+    "total_issues": 0,
+    "by_severity": {
+      "critical": 0,
+      "high": 2,
+      "medium": 3,
+      "low": 0,
+      "informational": 0
+    },
+    "analyzers_executed": [
+      "node"
+    ],
+    "policy_passed": true,
+    "execution_status": "completed"
+  },
+  "runtime_enabled": false,
+  "verification_status": "not_applicable",
+  "warnings": []
+}

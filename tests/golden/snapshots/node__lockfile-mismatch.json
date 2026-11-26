@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "product_name": "diagora",
+  "product_version": "0.1.0a2",
+  "scan_timestamp": "<TIMESTAMP>",
+  "repository": {
+    "repository_name": "lockfile-mismatch",
+    "relative_path": ".",
+    "is_git_repository": false,
+    "is_monorepo": false,
+    "is_empty": false,
+    "detected_ecosystems": [
+      "node"
+    ],
+    "package_managers": [
+      "npm"
+    ],
+    "manifests": [
+      "package.json"
+    ],
+    "lockfiles": [
+      "package-lock.json"
+    ],
+    "configuration_files": [],
+    "docker_files": [],
+    "ci_workflows": [],
+    "deployment_manifests": [],
+    "unsupported_files": [],
+    "subprojects": [
+      {
+        "path": ".",
+        "ecosystems": [
+          "node"
+        ],
+        "manifests": [
+          "package.json"
+        ],
+        "lockfiles": [
+          "package-lock.json"
+        ],
+        "config_files": [],
+        "is_workspace_package": false
+      }
+    ],
+    "discovered_files": [
+      "index.js",
+      "package-lock.json",
+      "package.json"
+    ],
+    "total_files_inspected": 3
+  },
+  "findings": [
+    {
+      "id": "nd-0001",
+      "rule_id": "ND009",
+      "title": "Lockfile/package manifest mismatch",
+      "description": "Dependencies declared in package.json are missing from or conflict with the committed lockfile.",
+      "severity": "high",
+      "confidence": "confirmed",
+      "category": "node",
+      "file": "package-lock.json",
+      "line": null,
+      "evidence": {
+        "observed": "missing=lodash; specifier_mismatch=chalk (manifest=^5.3.0, lock=^5.0.0)",
+        "expected": "package-lock.json synchronized with package.json",
+        "details": {}
+      },
+      "recommendation": "Run your package manager install command to synchronize the lockfile with package.json.",
+      "related_findings": [],
+      "status": "open"
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "total_findings": 1,
+    "total_issues": 0,
+    "by_severity": {
+      "critical": 0,
+      "high": 1,
+      "medium": 0,
+      "low": 0,
+      "informational": 0
+    },
+    "analyzers_executed": [
+      "node"
+    ],
+    "policy_passed": true,
+    "execution_status": "completed"
+  },
+  "runtime_enabled": false,
+  "verification_status": "not_applicable",
+  "warnings": []
+}
