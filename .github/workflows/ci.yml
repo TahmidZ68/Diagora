@@ -86,6 +86,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install . pip-audit
+          python -m pip uninstall -y diagora-cli
 
       - name: Run pip-audit on runtime environment
         run: pip-audit --strict
